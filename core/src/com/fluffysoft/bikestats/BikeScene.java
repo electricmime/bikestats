@@ -25,6 +25,15 @@ public class BikeScene extends BaseScene {
     Stage stage;
     Skin skin;
     Image screenBg;
+    Table table;
+    Label calorie;
+    Label distance;
+    Label incline;
+    Label pulse;
+    Label rpm;
+    Label speed;
+    Label time;
+    Label watt;
 
     public BikeScene(BikeStats bikestats){
         super(bikestats);
@@ -35,7 +44,36 @@ public class BikeScene extends BaseScene {
         skin = new Skin(Gdx.files.internal("uiskin.json"));
         screenBg = new Image(game.manager.get("background.png", Texture.class));
 
+        table = new Table();
+        calorie = new Label("calorie: ",skin);
+        table.add(calorie).padBottom(10);
+        table.row();
+        distance = new Label("distance: ",skin);
+        table.add(distance).padBottom(10);
+        table.row();
+        incline = new Label("incline: ",skin);
+        table.add(incline).padBottom(10);
+        table.row();
+        pulse = new Label("pulse: ",skin);
+        table.add(pulse).padBottom(10);
+        table.row();
+        rpm = new Label("rpm: ",skin);
+        table.add(rpm).padBottom(10);
+        table.row();
+        speed = new Label("speed: ",skin);
+        table.add(speed).padBottom(10);
+        table.row();
+        time = new Label("time: ",skin);
+        table.add(time).padBottom(10);
+        table.row();
+        watt = new Label("watt: ",skin);
+        table.add(watt).padBottom(10);
+        table.row();
+        table.setPosition(400,240);
+
+
         stage.addActor(screenBg);
+        stage.addActor(table);
     }
 
     @Override
