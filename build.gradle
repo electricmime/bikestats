@@ -60,6 +60,7 @@ project(":core") {
 
     dependencies {
         compile "com.badlogicgames.gdx:gdx:$gdxVersion"
+        compile files('libs/libPFHWApi-for-android-ver-20140122.jar')
     }
 }
 

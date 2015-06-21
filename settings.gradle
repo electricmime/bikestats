@@ -1,1 +1,1 @@
-include 'desktop', 'android', 'core'
+include 'desktop', 'android', 'core', ':libPFHWApi-for-android-ver-20140122'
