@@ -29,8 +29,10 @@ public class BikeStats extends Game {
 	public BikeScene scene;
     public String brand = new String("Unknown");
     public String manufacturer = new String("Unknown");
+	public BikeRequest request;
 
-	public BikeStats() {
+	public BikeStats(BikeRequest r) {
+		request = r;
 		camera = new OrthographicCamera();
 		camera.position.set(screenWidth/2, screenHeight/2, 0);
 		viewport = new FitViewport(screenWidth, screenHeight, camera);
@@ -47,6 +49,24 @@ public class BikeStats extends Game {
 
 	@Override
 	public void render () {
+		speed = request.getSpeed();
+		scene.setSpeed();
+		pulse = request.getPulse();
+		scene.setPulse();
+		incline = request.getIncline();
+		scene.setIncline();
+
+		if(!request.isConnected()) {
+			brand = "DISCONNECTED";
+			scene.setBrand();
+		}
+		if(!request.isRunning()) {
+			manufacturer = "NOTRUNNING";
+			scene.setManufacturer();
+		}
+		if(Gdx.input.isKeyJustPressed(Input.Keys.NUM_1)) {
+			request.startCustom(3600, 2.0, 200, 43, true, 68, 337, true);
+		}
 		if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
 			rpm  += 10;
 			scene.setRpm();
@@ -79,6 +99,10 @@ public class BikeStats extends Game {
 			speed += 10;
 			scene.setSpeed();
 		}
+        if(Gdx.input.isKeyJustPressed(Input.Keys.X)){
+            Gdx.app.exit();
+        }
+
 		super.render();
 
 	}

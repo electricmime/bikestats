@@ -4,12 +4,13 @@ import android.os.Bundle;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.backends.android.AndroidApplicationConfiguration;
+import com.fluffysoft.bikestats.BikeRequest;
 import com.fluffysoft.bikestats.BikeStats;
 import com.pafers.fitnesshwapi.lib.device.FitnessHwApiDevice;
 import com.pafers.fitnesshwapi.lib.device.FitnessHwApiDeviceFeedback;
 import com.pafers.fitnesshwapi.lib.device.FitnessHwApiDeviceListener;
 
-public class AndroidLauncher extends AndroidApplication implements FitnessHwApiDeviceListener {
+public class AndroidLauncher extends AndroidApplication implements FitnessHwApiDeviceListener, BikeRequest {
 	public FitnessHwApiDevice device;
     public BikeStats game;
     // TODO: Figure out how to fecth this at runtime rather than hardcoding it.
@@ -17,7 +18,7 @@ public class AndroidLauncher extends AndroidApplication implements FitnessHwApiD
 
     @Override
 	protected void onCreate (Bundle savedInstanceState) {
-        game = new BikeStats();
+        game = new BikeStats(this);
         try {
             device = new FitnessHwApiDevice();
         } catch (Exception e) {
@@ -55,6 +56,7 @@ public class AndroidLauncher extends AndroidApplication implements FitnessHwApiD
         System.out.println("BIKE: onDeviceStopped(" + ((var1)?"TRUE":"FALSE") + ")");
     };
     public void onDeviceUpdate(FitnessHwApiDeviceFeedback var1){
+        /*
         device.setTargetSpeed(12.3);
         game.calorie = var1.calorie;
         game.distance = var1.distance;
@@ -64,8 +66,9 @@ public class AndroidLauncher extends AndroidApplication implements FitnessHwApiD
         game.speed = device.getSpeed();
         game.time = var1.time;
         game.watt = var1.watt;
-
-        System.out.println("BIKE: " + game.calorie + " " + game.distance + " " + game.incline + " " + game.pulse + " " + game.rpm + " " + game.speed + " " + game.time + " " + game.watt);
+*/
+        System.out.println("BIKE: " + var1.calorie + " " + var1.distance + " " + var1.incline + " " + var1.pulse + " " + var1.rpm + " " + var1.speed + " " + var1.time + " " + var1.watt);
+/*
         game.scene.setCalorie();
         game.scene.setDistance();
         game.scene.setIncline();
@@ -74,6 +77,7 @@ public class AndroidLauncher extends AndroidApplication implements FitnessHwApiD
         game.scene.setSpeed();
         game.scene.setTime();
         game.scene.setWatt();
+        */
     };
     public void onDeviceSpeedLimit(double var1, double var3){
         System.out.println("BIKE: onDeviceSpeedLimit(" + var1 + "," + var3 + ")");
@@ -88,4 +92,41 @@ public class AndroidLauncher extends AndroidApplication implements FitnessHwApiD
         game.scene.setManufacturer();
         System.out.println("BIKE: onDeviceManufacturer(" + var1 + ")");
     };
+
+    /*
+    ** Delegate to device... using delegation to allow android to use one BikeListener and
+    ** Desktop to use another.
+     */
+
+    public void queryManufacturer(){ device.queryManufacturer();};
+    public void queryBrand(){ device.queryBrand(); };
+    public void connect(String name){ device.connect(name); };
+    public void disconnect(){ device.disconnect(); };
+    public void reset(){ device.reset(); }
+    public void start(){ device.start(); }
+    public void pause(){ device.pause(); }
+    public void stop(){ device.stop(); }
+    public boolean isBike(){ return device.isBike();}
+    public boolean isElliptical(){ return device.isElliptical();}
+    public boolean isTreadmill(){ return device.isTreadmill(); }
+    public boolean isBikeOrElliptical(){ return device.isBikeOrElliptical(); }
+    public boolean isRunning(){ return device.isRunning(); }
+    public boolean isPaused(){ return device.isPaused(); }
+    public boolean isConnected(){ return device.isConnected(); }
+    public boolean isMetric(){ return device.isMetric(); }
+    public boolean isImperial(){ return device.isImperial(); }
+    public void setTargetSpeed(double speed){ device.setTargetSpeed(speed); }
+    public void setTargetTimeDistanceAndCalorie(int time, double distance, int calorie){ device.setTargetTimeDistanceAndCalorie(time, distance, calorie);}
+    public void setTargetPulse(byte pulse){ device.setTargetPulse(pulse); }
+    public void setTargetWatt(int watt){ device.setTargetWatt(watt); }
+    public void setIncline(byte incline){ device.setIncline(incline); }
+    public void setUserData(byte age, boolean isMale, int weight, int height, boolean isMetric){ device.setUserData(age, isMale, weight, height, isMetric); }
+    public void enableStartKey(){ device.enableStartKey(); }
+    public double getSpeed(){ return device.getSpeed();}
+    public int getPulse() { return device.getPulse(); }
+    public byte getIncline(){ return device.getIncline(); }
+    public void startQuick(int age, boolean isMale, int height, int weight, boolean isMetric){ device.startQuick(age, isMale, height, weight, isMetric); }
+    public void startCustom(int time, double distance, int calorie, int age, boolean isMale, int height, int weight, boolean isMetric){ device.startCustom(time, distance, calorie, age, isMale, height, weight, isMetric); }
+    public void startHrc(final double speed, final byte incline, final byte pulse, final int age, final boolean isMale, final int height, final int weight, final boolean isMetric){ device.startHrc(speed, incline, pulse, age, isMale, height, weight, isMetric); }
+    public void startWatt(final int watt, final int age, final boolean isMale, final int height, final int weight, final boolean isMetric){ device.startWatt(watt, age, isMale, height, weight, isMetric); }
 }

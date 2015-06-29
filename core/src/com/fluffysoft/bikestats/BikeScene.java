@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -37,6 +38,7 @@ public class BikeScene extends BaseScene {
     Label wattLabel;
     Label brandLabel;
     Label manLabel;
+    TextButton exitButton;
 
 
 
@@ -80,8 +82,17 @@ public class BikeScene extends BaseScene {
         manLabel = new Label("man: ",skin);
         table.add(manLabel).padBottom(10);
         table.row();
-        table.setPosition(400,240);
+        exitButton = new TextButton("Exit",skin);
+        table.add(exitButton).padBottom(10);
+        table.row();
+        table.setPosition(400, 240);
 
+        exitButton.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Gdx.app.exit();
+            }
+        });
 
         stage.addActor(screenBg);
         stage.addActor(table);
